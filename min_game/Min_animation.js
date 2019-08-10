@@ -47,7 +47,7 @@ class MinAnimation {
     }
 
     jump() {
-        this.vy = -10
+        this.vy = -5
     }
 
     update() {
