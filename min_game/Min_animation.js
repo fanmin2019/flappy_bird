@@ -1,3 +1,5 @@
+//目的是为了如何把程序一步一步写成自己想要的样子
+//追加新的功能很方便，该起来也很方便
 //应该作为基类来处理
 class MinAnimation {
     constructor(game) {
@@ -34,6 +36,10 @@ class MinAnimation {
         //重力和加速度
         this.gy = 10
         this.vy = 0
+
+        //角度
+        this.rotation = 0
+        this.alpha = 1;
     }
 
 
@@ -48,15 +54,27 @@ class MinAnimation {
 
     jump() {
         this.vy = -5
+        this.rotation = -45
     }
 
     update() {
+
+        //update alpha
+        if(this.alpha > 0) {
+            this.alpha -= 0.05
+        }
+
         //更新受力
         this.y += this.vy
         this.vy += this.gy * 0.02
         var h = 520
         if(this.y > h) {
             this.y = h
+        }
+
+        //更新角度
+        if(this.rotation <= 45) {
+            this.rotation += 1
         }
 
         this.frameCount--
@@ -66,37 +84,40 @@ class MinAnimation {
             this.frameIndex = (this.frameIndex + 1) % this.frames().length
             this.texture = this.frames()[this.frameIndex]
         }
+
     }
 
     draw() {
         var context = this.game.context
-        if(this.flipX) {
         context.save()
 
         //把画布移动到中心点
-        var x = this.x + this.w / 2
+        var w2 = this.w / 2
+        var h2 = this.h / 2
 
-        //y不翻转
-        //画往右边移动了x，也就是对称的点
-        context.translate(x, 0)
+        context.globalAlpha = this.alpha
 
-        ////The scale will flip the whole canvas, and will move the image
-        //to the left (by the image width size)
-        //把画面往左边转
-        context.scale(-1, 1)
+        // 这一步的操作是把角色的中心点放到原点上
+        context.translate(this.x + w2, this.y + h2)
 
-        //再向左平移x
-        context.translate(-x, 0)
+        if(this.flipX) {
+            ////The scale will flip the whole canvas, and will move the image
+            //to the left (by the image width size)
+            //把画面往左边转
+            context.scale(-1, 1)
+        }
+
+        //然后绕着中心点回去
+        context.rotate(this.rotation * Math.PI / 180)
+
+        //再反转回去
+        context.translate(-w2, -h2)
 
         //然后画你
-        context.drawImage(this.texture, this.x, this.y)
+        context.drawImage(this.texture, 0, 0)
 
         //把画布返回过来
         context.restore()
-
-        } else {
-            context.drawImage(this.texture, this.x, this.y)
-        }
     }
 
     move(x, keyStatus) {
