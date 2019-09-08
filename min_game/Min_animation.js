@@ -85,6 +85,12 @@ class MinAnimation {
             this.texture = this.frames()[this.frameIndex]
         }
 
+        // log("this.y", this.y)
+        if(this.y == 520) {
+            log("game over")
+            var s_end = SceneEnd.new(this.game)
+            this.game.replaceScene(s_end)
+        }
     }
 
     draw() {

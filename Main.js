@@ -35,6 +35,8 @@ var __main = function() {
         'background': 'img/bird/bg.png',
         'ground': 'img/bird/ground.png',
         'pipe': 'img/bird/pipe.png',
+        'game_over': 'img/bird/game_over.png',
+        'title': 'img/bird/title.png',
     }
 
 
