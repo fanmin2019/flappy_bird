@@ -38,7 +38,10 @@ class SceneEnd extends MinScene {
 
         //fill text
         // this.game.context.fillStyle = "black";
-        this.game.context.fillText("Please press r to restart game", 100, 300);
+        this.game.context.fillStyle = "rgb(255, 255, 255)";
+        this.game.context.font = "30px Georgia";
+        this.game.context.fillText("Please press r to restart game", 10, 170);
+        this.game.context.fillText("Your score :  " + window.score, 10, 210);
     }
 
 }

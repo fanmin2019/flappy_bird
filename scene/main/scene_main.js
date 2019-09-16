@@ -97,6 +97,10 @@ class SceneMain extends MinScene {
         // this.label = Min_label.new(game, "Hello Min")
         // this.addElement(this.label  )
 
+        //score
+        window.score = 0
+        window.score_tmp = 0
+
         //bg
         var bg = MinImage.new(game, 'background')
         bg.w = 400
@@ -114,6 +118,7 @@ class SceneMain extends MinScene {
         //加入水管
         //add pipe
         this.pipe = Pipes.new(game)
+        log("this.pipe", this.pipe)
         this.addElement(this.pipe)
 
         //ground loop
@@ -135,6 +140,7 @@ class SceneMain extends MinScene {
 
     update() {
         super.update();
+        log("scene_main")
         this.skipCount--
         //往前走1步，往后退散步
         this.offset = -3
@@ -149,6 +155,30 @@ class SceneMain extends MinScene {
             // console.log("g.x", i, g.x)
         }
         // if(this.repeat == 0)
+
+        // log("this.pipe.length",this.pipe.pipes,this.pipe.length)
+        for (let i = 0; i < this.pipe.pipes.length; i++) {
+            let pipe = this.pipe.pipes[i]
+            if(this.collide(pipe, this.bird)) {
+                let s_end = SceneEnd.new(this.game)
+                this.game.replaceScene(s_end)
+            } else {
+                if(this.bird.x == pipe.x) {
+                    window.score_tmp += 1
+                    if(window.score_tmp == 1 || window.score_tmp == 2) {
+                        window.score = 1
+                    } else {
+                        window.score = Math.round(window.score_tmp / 2)
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    collide(pipe, bird) {
+        return rectInterSects(pipe, bird) || rectInterSects(bird, pipe)
     }
 
     setupInputs() {
@@ -167,5 +197,18 @@ class SceneMain extends MinScene {
             // log("status b", keyStatus)
             b.jump()
         })
+    }
+
+    draw() {
+        super.draw()
+
+        // this.game.context.shadowColor = "rgba(0, 0, 0, 0.5)";
+        // this.game.context.shadowOffsetX = 4;
+        // this.game.context.shadowOffsetY = 4;
+        // this.game.context.shadowBlur = 5;
+        // this.game.context = "bold 12px verdana, sans-serif";
+        this.game.context.fillStyle = "rgb(255, 255, 255)";
+        this.game.context.font = "30px Georgia";
+        this.game.context.fillText("Score:" + window.score, 30, 100);
     }
 }

@@ -152,6 +152,8 @@ class SceneTitle extends MinScene {
 
         //fill text
         // this.game.context.fillStyle = "black";
-        this.game.context.fillText("Please press s to start game", 100, 300);
+        this.game.context.fillStyle = "rgb(255, 255, 255)";
+        this.game.context.font = "30px Georgia";
+        this.game.context.fillText("Please press s to start game", 10, 300);
     }
 }

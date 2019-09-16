@@ -17,13 +17,6 @@ class MinAnimation {
             this.animations['bird'].push(t)
         }
 
-        // for (var i = 1 ; i < 10; i++) {
-        //     var name = `idle${i}`
-        //
-        //     var t = game.textureByName(name)
-        //     this.animations['idle'].push(t)
-        // }
-        //
         this.animationName = 'bird'
         this.texture = this.frames()[0]
         // log("this.frames()", this.frames())
